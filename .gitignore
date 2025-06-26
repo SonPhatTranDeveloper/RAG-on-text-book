@@ -11,3 +11,6 @@ wheels/
 
 # Set-up script
 setup.sh
+
+# Environment variable
+.env
