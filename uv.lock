@@ -1412,6 +1412,7 @@ dependencies = [
     { name = "ipykernel" },
     { name = "llama-index" },
     { name = "llama-index-readers-file" },
+    { name = "llama-parse" },
     { name = "pip" },
     { name = "python-dotenv" },
 ]
@@ -1421,6 +1422,7 @@ requires-dist = [
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "llama-index", specifier = ">=0.12.43" },
     { name = "llama-index-readers-file", specifier = ">=0.4.9" },
+    { name = "llama-parse", specifier = ">=0.6.34" },
     { name = "pip", specifier = ">=25.1.1" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
 ]
