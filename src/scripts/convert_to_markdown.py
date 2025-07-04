@@ -1,15 +1,20 @@
 import os
 import argparse
 import logging
-from llama_index.readers.llama_parse import LlamaParse
 from llama_index.core.node_parser import MarkdownNodeParser
+from dotenv import load_dotenv
+from src.utils.parse_config import get_baseline_llamaparse, get_lvm_llamaparse
+from typing import Literal
+
 
 # Simple logger setup
 logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
-def pdf_to_markdown(file_path: str, output_path: str):
+def pdf_to_markdown(
+    file_path: str, output_path: str, mode: Literal["baseline", "lvm"] = "baseline"
+) -> None:
     """Convert PDF document to markdown
 
     Args:
@@ -22,7 +27,12 @@ def pdf_to_markdown(file_path: str, output_path: str):
 
     try:
         # Initialize LlamaParse with Vietnamese
-        parser = LlamaParse(result_type="markdown", language="vi")
+        if mode == "baseline":
+            parser = get_baseline_llamaparse()
+        elif mode == "lvm":
+            parser = get_lvm_llamaparse()
+        else:
+            raise ValueError("Invalid mode specified. Use 'baseline' or 'lvm'.")
 
         # Load and parse PDF
         documents = parser.load_data(file_path)
@@ -45,7 +55,7 @@ def pdf_to_markdown(file_path: str, output_path: str):
         logger.exception("---An error occurred during conversion")
 
 
-def batch_convert_pdfs(input_folder: str, output_folder: str):
+def batch_convert_pdfs(input_folder: str, output_folder: str) -> None:
     """
     Convert all PDF files in a specified input folder to Markdown using LlamaParse,
     and save the resulting .md files to the specified output folder.
@@ -82,6 +92,8 @@ def batch_convert_pdfs(input_folder: str, output_folder: str):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     parser = argparse.ArgumentParser(
         description="Batch convert PDF files to Markdown using LlamaParse (language: Vietnamese)"
     )
