@@ -20,6 +20,10 @@ def pdf_to_markdown(
     Args:
         file_path (str): input PDF file path
         output_path (str): output markdown file path
+        mode (Literal["baseline", "lvm"], optional): The LlamaParse mode to use for conversion.
+                                                     Choose 'baseline' for standard parsing
+                                                     or 'lvm' for a specific LVM (LlamaParse Vietnamese) parser.
+                                                     Defaults to 'baseline'.
     """
     logger.info("Converting PDF to Markdown...")
     logger.info(f"Input: {file_path}")
@@ -55,7 +59,9 @@ def pdf_to_markdown(
         logger.exception("---An error occurred during conversion")
 
 
-def batch_convert_pdfs(input_folder: str, output_folder: str) -> None:
+def batch_convert_pdfs(
+    input_folder: str, output_folder: str, mode: Literal["baseline", "lvm"] = "baseline"
+) -> None:
     """
     Convert all PDF files in a specified input folder to Markdown using LlamaParse,
     and save the resulting .md files to the specified output folder.
@@ -66,6 +72,10 @@ def batch_convert_pdfs(input_folder: str, output_folder: str) -> None:
     Args:
         input_folder (str): Path to the folder containing PDF files to convert.
         output_folder (str): Path to the folder where Markdown files will be saved.
+        mode (Literal["baseline", "lvm"], optional): The LlamaParse mode to use for conversion.
+                                                     Choose 'baseline' for standard parsing
+                                                     or 'lvm' for a specific LVM (LlamaParse Vietnamese) parser.
+                                                     Defaults to 'baseline'.
 
     Notes:
         - Only files ending in '.pdf' (case-insensitive) will be processed.
@@ -77,16 +87,20 @@ def batch_convert_pdfs(input_folder: str, output_folder: str) -> None:
 
     os.makedirs(output_folder, exist_ok=True)
 
-    for filename in os.listdir(input_folder):
-        if filename.lower().endswith(".pdf"):
-            input_path = os.path.join(input_folder, filename)
-            output_filename = os.path.splitext(filename)[0] + ".md"
-            output_path = os.path.join(output_folder, output_filename)
+    # Find all files recursively in the input folder
+    for root, _, files in os.walk(input_folder):
+        for filename in files:
+            if filename.lower().endswith(".pdf"):
+                input_path = os.path.join(root, filename)
 
-            try:
-                pdf_to_markdown(input_path, output_path)
-            except Exception:
-                logger.exception(f"Failed to convert file: {filename}")
+                # Construct output_path directly in the specified output_folder
+                output_filename = os.path.splitext(filename)[0] + ".md"
+                output_path = os.path.join(output_folder, output_filename)
+
+                try:
+                    pdf_to_markdown(input_path, output_path, mode)
+                except Exception:
+                    logger.exception(f"Failed to convert file: {input_path}")
 
     logger.info("Batch conversion completed.")
 
@@ -99,6 +113,13 @@ if __name__ == "__main__":
     )
     parser.add_argument("input_folder", type=str, help="Folder containing PDF files")
     parser.add_argument("output_folder", type=str, help="Folder to save Markdown files")
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["baseline", "lvm"],
+        default="baseline",
+        help="LlamaParse mode to use (default: baseline). Choose from 'baseline' or 'lvm'.",
+    )
 
     args = parser.parse_args()
-    batch_convert_pdfs(args.input_folder, args.output_folder)
+    batch_convert_pdfs(args.input_folder, args.output_folder, args.mode)
