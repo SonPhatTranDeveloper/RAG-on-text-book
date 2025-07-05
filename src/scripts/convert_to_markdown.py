@@ -3,7 +3,11 @@ import argparse
 import logging
 from llama_index.core.node_parser import MarkdownNodeParser
 from dotenv import load_dotenv
-from src.utils.parse_config import get_baseline_llamaparse, get_lvm_llamaparse
+from src.utils.parse_config import (
+    get_baseline_llamaparse,
+    get_lvm_llamaparse,
+    get_english_book_llamaparse_config,
+)
 from typing import Literal
 
 
@@ -25,13 +29,20 @@ def pdf_to_markdown(
                                                      or 'lvm' for a specific LVM (LlamaParse Vietnamese) parser.
                                                      Defaults to 'baseline'.
     """
+    # Debugging, skip other books
+    if "tieng_anh" not in file_path.lower() and "toan" not in file_path.lower():
+        logger.info(f"Skipping file: {file_path}")
+        return
+
     logger.info("Converting PDF to Markdown...")
     logger.info(f"Input: {file_path}")
     logger.info(f"Output: {output_path}")
 
     try:
         # Initialize LlamaParse with Vietnamese
-        if mode == "baseline":
+        if "tieng_anh" in file_path.lower():
+            parser = get_english_book_llamaparse_config()
+        elif mode == "baseline":
             parser = get_baseline_llamaparse()
         elif mode == "lvm":
             parser = get_lvm_llamaparse()
