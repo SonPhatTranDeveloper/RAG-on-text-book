@@ -29,11 +29,6 @@ def pdf_to_markdown(
                                                      or 'lvm' for a specific LVM (LlamaParse Vietnamese) parser.
                                                      Defaults to 'baseline'.
     """
-    # Debugging, skip other books
-    if "tieng_anh" not in file_path.lower() and "toan" not in file_path.lower():
-        logger.info(f"Skipping file: {file_path}")
-        return
-
     logger.info("Converting PDF to Markdown...")
     logger.info(f"Input: {file_path}")
     logger.info(f"Output: {output_path}")
