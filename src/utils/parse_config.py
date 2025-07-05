@@ -23,8 +23,7 @@ def get_lvm_llamaparse() -> LlamaParse:
         result_type="markdown",
         language="vi",
         use_vendor_multimodal_model=True,
-        # vendor_multimodal_model_name="anthropic-sonnet-3.5",
-        vendor_multimodal_model_name="gemini-2.0-flash-001",
+        vendor_multimodal_model_name="anthropic-sonnet-3.5",
         system_prompt_append=(
             "This is a book for Vietnamese high-school students, "
             "written in Vietnamese. The text is structured with headings, sections, and other elements. "
@@ -53,8 +52,7 @@ def get_english_book_llamaparse_config() -> LlamaParse:
         result_type="markdown",
         language="en",
         use_vendor_multimodal_model=True,
-        # vendor_multimodal_model_name="anthropic-sonnet-3.5",
-        vendor_multimodal_model_name="gemini-2.0-flash-001",
+        vendor_multimodal_model_name="anthropic-sonnet-3.5",
         system_prompt_append=(
             "This is an English book. Your task is to extract the text content "
             "in a logical reading order, preserving the structure and hierarchy "
