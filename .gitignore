@@ -18,3 +18,4 @@ setup.sh
 # Raw data
 src/raw
 src/data
+.DS_STORE
