@@ -18,4 +18,9 @@ setup.sh
 # Raw data
 src/raw
 src/data
+
+# MacOS specific
 .DS_STORE
+
+# Index storage
+.index_storage
