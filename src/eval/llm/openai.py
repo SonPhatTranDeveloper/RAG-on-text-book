@@ -42,7 +42,7 @@ class OpenAIExtractor(BaseExtractor):
                                 "properties": {
                                     "question": {
                                         "type": "string",
-                                        "description": "The full content of the multiple-choice question, including options. Any mathematical symbols or expressions should be converted to LaTeX format.",
+                                        "description": "The full content of the multiple-choice question, including options. Any mathematical symbols or expressions should be converted to LaTeX format. No question number is needed. Put newline symbol between options. Make sure each question is formatted the same way.",
                                     },
                                     "answer": {
                                         "type": "string",
