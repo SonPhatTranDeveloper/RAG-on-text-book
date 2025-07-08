@@ -6,13 +6,27 @@ from src.eval.pipeline import create_standard_pipeline
 from dotenv import load_dotenv
 from src.eval.pipeline.base import BasePipeline
 
-logging.basicConfig(
-    filename="pipeline-run.log",
-    filemode="w",
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
-)
+# Set up logging to both file and console
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)  # Capture all levels
+
+# File handler
+file_handler = logging.FileHandler("pipeline-run.log", mode="a", encoding="utf-8")
+file_handler.setLevel(logging.INFO)
+
+# Console handler
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# Formatter
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+console_handler.setFormatter(formatter)
+
+# Avoid adding multiple handlers if script is rerun
+if not logger.hasHandlers():
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
 
 
 def process_single_subject(

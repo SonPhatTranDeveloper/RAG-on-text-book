@@ -24,3 +24,6 @@ src/data
 
 # Index storage
 .index_storage
+
+# Log file
+*.Log
