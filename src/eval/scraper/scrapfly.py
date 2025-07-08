@@ -27,7 +27,6 @@ class ScrapflyScraper(BaseScraper):
             ScrapeConfig(
                 tags=["player", "project:default"],
                 proxy_pool="public_residential_pool",
-                country="us",
                 asp=True,
                 cost_budget=200,
                 url=url,
