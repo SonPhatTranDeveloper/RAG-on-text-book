@@ -106,14 +106,16 @@ def process_single_subject(
 
 
 def process_subjects_and_generate_datasets(
-    pipeline: BasePipeline, grade_directory: str
+    pipeline: BasePipeline, grade_directory: str, subject_name: str = None
 ) -> None:
     """
     Loops through each subject folder, and calls process_single_subject for each.
+    If subject_name is provided, only processes that specific subject.
 
     Args:
         pipeline (BasePipeline): The pipeline instance to process URLs.
         grade_directory (str): The path to the main 'grade' directory.
+        subject_name (str, optional): Specific subject to process. If None, processes all subjects.
 
     Returns:
         None
@@ -122,19 +124,30 @@ def process_subjects_and_generate_datasets(
         logger.error(f"Error: Grade directory '{grade_directory}' not found.")
         return
 
-    logger.info(f"Starting processing in '{grade_directory}'...")
-
-    # Iterate through all items in the grade directory
-    for subject_name in os.listdir(grade_directory):
+    if subject_name:
+        # Process only the specified subject
         subject_path = os.path.join(grade_directory, subject_name)
-
-        # Check if it's a directory (i.e., a subject folder)
         if os.path.isdir(subject_path):
+            logger.info(f"Processing specific subject: {subject_name}")
             process_single_subject(pipeline, subject_path, subject_name)
         else:
-            logger.info(
-                f"Skipping non-directory item: {subject_name} in {grade_directory}"
-            )
+            logger.error(f"Error: Subject directory '{subject_name}' not found in '{grade_directory}'.")
+            return
+    else:
+        # Process all subjects
+        logger.info(f"Starting processing in '{grade_directory}'...")
+
+        # Iterate through all items in the grade directory
+        for subject_name in os.listdir(grade_directory):
+            subject_path = os.path.join(grade_directory, subject_name)
+
+            # Check if it's a directory (i.e., a subject folder)
+            if os.path.isdir(subject_path):
+                process_single_subject(pipeline, subject_path, subject_name)
+            else:
+                logger.info(
+                    f"Skipping non-directory item: {subject_name} in {grade_directory}"
+                )
 
     logger.info("\nProcessing complete!")
 
@@ -152,6 +165,14 @@ if __name__ == "__main__":
         default="grade",  # Default value if not provided
         help="The path to the main 'grade' directory containing subject folders.",
     )
+    parser.add_argument(
+        "--subject",
+        "-s",
+        type=str,
+        default=None,
+        help="Specific subject to process. If not provided, processes all subjects.",
+    )
     args = parser.parse_args()
     grade_directory = args.grade_dir
-    process_subjects_and_generate_datasets(pipeline, grade_directory)
+    subject_name = args.subject
+    process_subjects_and_generate_datasets(pipeline, grade_directory, subject_name)
