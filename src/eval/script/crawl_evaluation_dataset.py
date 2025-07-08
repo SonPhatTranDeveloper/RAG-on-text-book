@@ -6,7 +6,12 @@ from src.eval.pipeline import create_standard_pipeline
 from dotenv import load_dotenv
 from src.eval.pipeline.base import BasePipeline
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    filename="pipeline-run.log",
+    filemode="w",
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
 logger = logging.getLogger(__name__)
 
 
