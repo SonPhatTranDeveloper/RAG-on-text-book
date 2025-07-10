@@ -11,6 +11,7 @@ import argparse
 import sys
 from src.eval.eval_pipeline.multiple_choice_eval import MultipleChoiceEvaluationPipeline
 from src.rag.base_rag import LocalBaselineRAG, LocalSubQuestionRAG
+from dotenv import load_dotenv
 
 
 def setup_logging(level: str = "INFO") -> logging.Logger:
@@ -45,6 +46,7 @@ def setup_logging(level: str = "INFO") -> logging.Logger:
 
 
 def main():
+    load_dotenv()
     parser = argparse.ArgumentParser(
         description="Run multiple choice evaluation on RAG systems"
     )
