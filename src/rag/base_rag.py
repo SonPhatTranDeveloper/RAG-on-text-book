@@ -89,7 +89,7 @@ class LocalSubQuestionRAG(LocalRAG):
             QueryEngineTool.from_defaults(
                 query_engine=self.index.as_query_engine(),
                 name="document_search",
-                description="Luôn luôn sử dụng công cụ này để tìm kiếm thông tin trong sách giáo khoa cấp trung học phổ thông.",
+                description="Công cụ này để tìm kiếm thông tin trong sách giáo khoa cấp trung học phổ thông.",
             )
         ]
         self.query_engine = SubQuestionQueryEngine.from_defaults(
