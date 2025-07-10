@@ -2,9 +2,9 @@ import os
 import json
 import logging
 import argparse
-from src.eval.pipeline import create_standard_pipeline
+from src.eval.ingestion_pipeline import create_standard_pipeline
 from dotenv import load_dotenv
-from src.eval.pipeline.base import BasePipeline
+from src.eval.ingestion_pipeline.base import BasePipeline
 
 # Set up logging to both file and console
 logger = logging.getLogger(__name__)
