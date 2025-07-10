@@ -154,9 +154,15 @@ def process_subjects_and_generate_datasets(
 
 if __name__ == "__main__":
     load_dotenv()
-    pipeline = create_standard_pipeline()
     parser = argparse.ArgumentParser(
         description="Process URLs from subject folders and generate datasets."
+    )
+    parser.add_argument(
+        "--pipeline",
+        "-p",
+        type=str,
+        default="vietjack",
+        help="The pipeline to use. Currently supported: 'vietjack'.",
     )
     parser.add_argument(
         "--grade_dir",
@@ -175,4 +181,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     grade_directory = args.grade_dir
     subject_name = args.subject
+    pipeline = create_standard_pipeline(args.pipeline)
     process_subjects_and_generate_datasets(pipeline, grade_directory, subject_name)

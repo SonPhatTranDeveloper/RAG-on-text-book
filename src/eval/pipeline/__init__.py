@@ -1,9 +1,9 @@
 from src.eval.llm.openai import OpenAIExtractor
 from src.eval.scraper.scrapfly import ScrapflyScraper
-from src.eval.pipeline.base import BasePipeline
+from src.eval.pipeline.base import BasePipeline, VietJackPipeline
 
 
-def create_standard_pipeline() -> BasePipeline:
+def create_standard_pipeline(pipeline_type: str) -> BasePipeline:
     """
     Creates a standard pipeline with ScrapflyScraper and OpenAIExtractor.
 
@@ -12,4 +12,8 @@ def create_standard_pipeline() -> BasePipeline:
     """
     scraper = ScrapflyScraper()
     extractor = OpenAIExtractor()
-    return BasePipeline(scraper=scraper, extractor=extractor)
+
+    if pipeline_type == "vietjack":
+        return VietJackPipeline(scraper=scraper, extractor=extractor)
+    else:
+        raise ValueError(f"Invalid pipeline type: {pipeline_type}")
