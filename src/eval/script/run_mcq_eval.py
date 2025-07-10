@@ -10,7 +10,7 @@ import logging
 import argparse
 import sys
 from src.eval.eval_pipeline.multiple_choice_eval import MultipleChoiceEvaluationPipeline
-from src.rag.base_rag import LocalBaselineRAG, LocalSubQuestionRAG
+from src.rag.base_rag import LocalBaselineRAG, LocalSubQuestionRAG, LocalReRankRAG
 from dotenv import load_dotenv
 
 
@@ -52,7 +52,7 @@ def main():
     )
     parser.add_argument(
         "--rag-type",
-        choices=["baseline", "subquestion"],
+        choices=["baseline", "subquestion", "rerank"],
         default="baseline",
         help="Type of RAG system to evaluate",
     )
@@ -106,9 +106,12 @@ def main():
         if args.rag_type == "baseline":
             rag_system = LocalBaselineRAG()
             logger.info("Using LocalBaselineRAG")
-        else:
+        elif args.rag_type == "subquestion":
             rag_system = LocalSubQuestionRAG()
             logger.info("Using LocalSubQuestionRAG")
+        elif args.rag_type == "rerank":
+            rag_system = LocalReRankRAG()
+            logger.info("Using LocalReRankRAG")
 
         # Initialize evaluation pipeline
         logger.info("Initializing evaluation pipeline...")

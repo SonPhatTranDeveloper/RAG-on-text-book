@@ -24,6 +24,7 @@ src/data
 
 # Index storage
 .index_storage
+.bm25_index_storage
 
 # Log file
 *.Log

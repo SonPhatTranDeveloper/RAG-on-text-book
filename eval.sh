@@ -12,10 +12,10 @@ set -e
 BASE_CMD="uv run python src/eval/script/run_mcq_eval.py"
 
 # Common arguments for the evaluation script
-RAG_TYPE="baseline"
+RAG_TYPE="rerank"
 GRADE="grade_10"
 MAX_QUESTIONS=100
-OUTPUT_DIR="src/eval_result/baseline"
+OUTPUT_DIR="src/eval_result/rerank"
 
 # List of subjects to evaluate
 SUBJECTS=(
