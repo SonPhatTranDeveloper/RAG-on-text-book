@@ -1,6 +1,6 @@
 from src.eval.llm.openai import OpenAIExtractor
 from src.eval.scraper.scrapfly import ScrapflyScraper
-from src.eval.pipeline.base import BasePipeline, VietJackPipeline
+from src.eval.ingestion_pipeline.base import BasePipeline, VietJackPipeline
 
 
 def create_standard_pipeline(pipeline_type: str) -> BasePipeline:
