@@ -1,7 +1,7 @@
 from src.eval.llm.base import BaseExtractor
 from src.eval.scraper.base import BaseScraper
 from bs4 import BeautifulSoup
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 
 class BasePipeline:
@@ -40,7 +40,7 @@ class BasePipeline:
         # Extract only the core content from the HTML
         middle_col = self.select_element(soup)
         return self.extractor.extract(middle_col.text)
-    
+
 
 class VietJackPipeline(BasePipeline):
     def select_element(self, soup: BeautifulSoup) -> BeautifulSoup:

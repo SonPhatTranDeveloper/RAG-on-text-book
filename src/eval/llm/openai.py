@@ -84,7 +84,7 @@ class OpenAIExtractor(BaseExtractor):
             f"Please extract all multiple-choice questions and their single-letter answers from the following HTML:\n\n"
             f"```html\n{html_content}\n```\n\n"
             f"Please ensure each 'answer' is only the single correct letter (A, B, C, or D). "
-            f"Also, convert any mathematical symbols in the questions to LaTeX format.\n\n"
+            f"Also, you must convert any mathematical symbols accurately in the questions to LaTeX format, surround the symbols with $.\n\n"
         )
 
         return [

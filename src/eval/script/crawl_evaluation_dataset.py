@@ -131,7 +131,9 @@ def process_subjects_and_generate_datasets(
             logger.info(f"Processing specific subject: {subject_name}")
             process_single_subject(pipeline, subject_path, subject_name)
         else:
-            logger.error(f"Error: Subject directory '{subject_name}' not found in '{grade_directory}'.")
+            logger.error(
+                f"Error: Subject directory '{subject_name}' not found in '{grade_directory}'."
+            )
             return
     else:
         # Process all subjects
