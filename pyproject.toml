@@ -15,4 +15,5 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "ruff>=0.12.2",
     "scrapfly-sdk>=0.8.23",
+    "tqdm>=4.66.0",
 ]

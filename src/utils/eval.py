@@ -1,7 +1,7 @@
 import json
 
 
-def load_eval_dataset(dataset_path: str, grade: str, subject: str) -> list[dict]:
+def load_eval_dataset(grade: str, subject: str) -> list[dict]:
     """
     Load evaluation dataset from a file.
     """
