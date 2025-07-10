@@ -81,10 +81,11 @@ class OpenAIExtractor(BaseExtractor):
         )
 
         user_message = (
-            f"Please extract all multiple-choice questions and their single-letter answers from the following HTML:\n\n"
+            "Please extract all multiple-choice questions and their single-letter answers from the following HTML:\n\n"
             f"```html\n{html_content}\n```\n\n"
-            f"Please ensure each 'answer' is only the single correct letter (A, B, C, or D). "
-            f"Also, you must convert any mathematical symbols accurately in the questions to LaTeX format, surround the symbols with $.\n\n"
+            "Please ensure each 'answer' is only the single correct letter (A, B, C, or D).\n"
+            "Also, you must convert any mathematical symbols accurately in the questions to LaTeX format, surround the symbols with $.\n"
+            "Do not include any question that include a drawing or image."
         )
 
         return [
