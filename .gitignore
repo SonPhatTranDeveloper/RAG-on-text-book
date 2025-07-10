@@ -27,3 +27,6 @@ src/data
 
 # Log file
 *.Log
+
+# Evaluation result
+src/eval_result

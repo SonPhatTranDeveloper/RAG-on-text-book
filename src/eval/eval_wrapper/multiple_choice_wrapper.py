@@ -10,8 +10,8 @@ class MultipleChoiceWrapper:
         Wrap question with multiple choice format.
         """
         question = f"""
-            Hãy chỉ trả lời câu hỏi Multiple choice sau bằng một trong các đáp án A, B, C, D.   
-            Câu hỏi: {question}
-            Đáp án:
+            Response with only a single letter (A, B, C, D) as the answer.
+            Question: {question}
+            Answer:
         """
         return self.rag.get_answer(question)

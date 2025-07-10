@@ -120,9 +120,6 @@ def main():
             grade=args.grade, subject=args.subject, max_questions=args.max_questions
         )
 
-        # Print summary
-        pipeline.print_summary(results)
-
         # Save detailed results if requested
         if args.output_file:
             logger.info(f"Saving detailed results to {args.output_file}")

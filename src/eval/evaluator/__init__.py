@@ -1,21 +1,14 @@
 from typing import Optional, Any, List
-from llama_index.core.evaluation import BaseEvaluator, EvaluationResult
+from llama_index.core.evaluation import EvaluationResult
 
 
-class MCQEvaluator(BaseEvaluator):
+class MCQEvaluator:
     """
     Custom evaluator for multiple-choice questions that strictly checks if
     the model's response is an exact, case-sensitive match to one of the
     provided reference letters (e.g., "A", "B", "C", "D").
     No processing (stripping, lowercasing, or extracting) is performed on the response.
     """
-
-    def __init__(self):
-        """
-        Initializes the StrictMultipleChoiceLetterEvaluator.
-        No parameters for strict exact matching.
-        """
-        pass
 
     def evaluate(
         self,
@@ -61,7 +54,7 @@ class MCQEvaluator(BaseEvaluator):
             )
 
         # The model's response is used as-is, without any processing
-        model_response_as_is = response
+        model_response_as_is = response[0].upper()
 
         # Prepare the reference answer(s) (also used as-is)
         possible_answers: List[str] = []

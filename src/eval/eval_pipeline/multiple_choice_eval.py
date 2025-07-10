@@ -5,6 +5,7 @@ from tqdm import tqdm
 from src.eval.evaluator import MCQEvaluator
 from src.utils.eval import load_eval_dataset, load_eval_dataset_by_grade
 from src.rag.base_rag import BaseRAG
+from src.eval.eval_wrapper.multiple_choice_wrapper import MultipleChoiceWrapper
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ class MultipleChoiceEvaluationPipeline:
 
     This pipeline:
     1. Loads multiple choice question-answer pairs from datasets
-    2. Uses a RAG system to generate answers
+    2. Uses a RAG system wrapped with MultipleChoiceWrapper to generate answers
     3. Evaluates the answers using MCQEvaluator
     4. Calculates accuracy metrics
     """
@@ -28,6 +29,7 @@ class MultipleChoiceEvaluationPipeline:
             rag: A RAG system that implements the BaseRAG interface
         """
         self.rag = rag
+        self.mcq_wrapper = MultipleChoiceWrapper(rag)
         self.evaluator = MCQEvaluator()
         self.results = []
 
@@ -71,8 +73,8 @@ class MultipleChoiceEvaluationPipeline:
             correct_answer = qa_pair["answer"]
 
             try:
-                # Get RAG response
-                rag_response = self.rag.get_answer(question)
+                # Get RAG response using the multiple choice wrapper
+                rag_response = self.mcq_wrapper.get_answer(question)
 
                 # Evaluate the response
                 eval_result = self.evaluator.evaluate(
@@ -156,4 +158,3 @@ class MultipleChoiceEvaluationPipeline:
         )
 
         logger.info("=" * 60)
-
