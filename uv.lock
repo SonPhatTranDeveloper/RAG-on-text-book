@@ -1453,6 +1453,7 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "ruff" },
     { name = "scrapfly-sdk" },
+    { name = "tqdm" },
 ]
 
 [package.metadata]
@@ -1467,6 +1468,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "ruff", specifier = ">=0.12.2" },
     { name = "scrapfly-sdk", specifier = ">=0.8.23" },
+    { name = "tqdm", specifier = ">=4.66.0" },
 ]
 
 [[package]]
