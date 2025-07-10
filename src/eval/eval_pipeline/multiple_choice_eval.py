@@ -2,7 +2,7 @@ import logging
 from typing import List, Dict, Any, Optional
 from tqdm import tqdm
 
-from src.eval.evaluator import ExactMatchStrictMCQEvaluator
+from src.eval.evaluator import MCQEvaluator
 from src.utils.eval import load_eval_dataset, load_eval_dataset_by_grade
 from src.rag.base_rag import BaseRAG
 
@@ -16,19 +16,19 @@ class MultipleChoiceEvaluationPipeline:
     This pipeline:
     1. Loads multiple choice question-answer pairs from datasets
     2. Uses a RAG system to generate answers
-    3. Evaluates the answers using ExactMatchStrictMCQEvaluator
+    3. Evaluates the answers using MCQEvaluator
     4. Calculates accuracy metrics
     """
 
-    def __init__(self, rag_system: BaseRAG):
+    def __init__(self, rag: BaseRAG):
         """
         Initialize the evaluation pipeline.
 
         Args:
-            rag_system: A RAG system that implements the BaseRAG interface
+            rag: A RAG system that implements the BaseRAG interface
         """
-        self.rag_system = rag_system
-        self.evaluator = ExactMatchStrictMCQEvaluator()
+        self.rag = rag
+        self.evaluator = MCQEvaluator()
         self.results = []
 
     def evaluate_dataset(
@@ -72,7 +72,7 @@ class MultipleChoiceEvaluationPipeline:
 
             try:
                 # Get RAG response
-                rag_response = self.rag_system.get_answer(question)
+                rag_response = self.rag.get_answer(question)
 
                 # Evaluate the response
                 eval_result = self.evaluator.evaluate(
@@ -118,7 +118,7 @@ class MultipleChoiceEvaluationPipeline:
             "accuracy": accuracy,
             "grade": grade,
             "subject": subject,
-            "rag_system": self.rag_system.__class__.__name__,
+            "rag_system": self.rag.__class__.__name__,
         }
 
         logger.info(
@@ -136,49 +136,24 @@ class MultipleChoiceEvaluationPipeline:
         """
         return self.results
 
-    def print_summary(self, results: Dict[str, Any]):
+    def log_summary(self, results: Dict[str, Any]):
         """
-        Print a summary of evaluation results.
+        Log a summary of evaluation results.
 
         Args:
             results: Results dictionary from evaluate_dataset
         """
-        print("\n" + "=" * 60)
-        print("MULTIPLE CHOICE EVALUATION SUMMARY")
-        print("=" * 60)
+        logger.info("=" * 60)
+        logger.info("MULTIPLE CHOICE EVALUATION SUMMARY")
+        logger.info("=" * 60)
 
         metrics = results["metrics"]
         subject_str = f"/{metrics['subject']}" if metrics["subject"] else ""
-        print(f"Dataset: {metrics['grade']}{subject_str}")
-        print(f"RAG System: {metrics['rag_system']}")
-        print(
+        logger.info(f"Dataset: {metrics['grade']}{subject_str}")
+        logger.info(f"RAG System: {metrics['rag_system']}")
+        logger.info(
             f"Accuracy: {metrics['accuracy']:.4f} ({metrics['correct_answers']}/{metrics['total_questions']})"
         )
 
-        print("=" * 60)
+        logger.info("=" * 60)
 
-
-def run_evaluation_example():
-    """
-    Example usage of the MultipleChoiceEvaluationPipeline.
-    """
-    from src.rag.base_rag import LocalBaselineRAG
-
-    # Initialize RAG system
-    rag_system = LocalBaselineRAG()
-
-    # Initialize evaluation pipeline
-    pipeline = MultipleChoiceEvaluationPipeline(rag_system)
-
-    # Evaluate single subject
-    print("Evaluating single subject...")
-    results = pipeline.evaluate_dataset(
-        grade="grade_10",
-        subject="toan",
-        max_questions=10,  # Limit for example
-    )
-    pipeline.print_summary(results)
-
-
-if __name__ == "__main__":
-    run_evaluation_example()

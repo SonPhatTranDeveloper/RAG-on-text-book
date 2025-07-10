@@ -2,7 +2,7 @@ from typing import Optional, Any, List
 from llama_index.core.evaluation import BaseEvaluator, EvaluationResult
 
 
-class ExactMatchStrictMCQEvaluator(BaseEvaluator):
+class MCQEvaluator(BaseEvaluator):
     """
     Custom evaluator for multiple-choice questions that strictly checks if
     the model's response is an exact, case-sensitive match to one of the
